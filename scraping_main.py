@@ -72,13 +72,17 @@ def main(start_page=1, end_page=1):
 
             target_name = ''
             for i in range(4):
-                if i != 0:
+                if i != 0 and i != 3:
                     target_name = target_name + '_' + td_list[i].text
+                elif i == 3:
+                    target_name = f'[{td_list[i].text}]_' + target_name
                 else:
                     target_name = td_list[i].text
 
             td_item = td_list[2].find_element(By.TAG_NAME, 'a')
             target_link = td_item.get_attribute('href')
+            target_name = target_name.replace('/', '').replace('..', '')
+            target_name = target_name[:-1]
 
             logger.info(target_name)
             r = requests.get(target_link, allow_redirects=True)
@@ -97,10 +101,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('start_page',
                         type=int,
-                        default=start_page)
+                        default=start_page,
+                        nargs='?')
     parser.add_argument('end_page',
                         type=int,
-                        default=end_page)
+                        default=end_page,
+                        nargs='?')
 
     args = parser.parse_args()
 
