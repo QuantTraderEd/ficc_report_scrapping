@@ -2,8 +2,6 @@
 import time
 import random
 import requests
-import logging
-import logging.handlers
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -11,21 +9,10 @@ from selenium.webdriver.common.by import By
 # from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
+from util.cmm_logger import *
+
 logger = logging.getLogger('scraping_main')
 logger.setLevel(logging.DEBUG)
-
-# create file handler which logs even debug messages
-fh = logging.handlers.RotatingFileHandler('scraping_main.log', maxBytes=104857, backupCount=3)
-fh.setLevel(logging.DEBUG)
-
-# create console handler with a higher log level
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-
-# create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s %(message)s')
-fh.setFormatter(formatter)
-ch.setFormatter(formatter)
 
 # add the handler to logger
 logger.addHandler(fh)
@@ -75,6 +62,7 @@ def main(start_page=1, end_page=1):
                 if i != 0 and i != 3:
                     target_name = target_name + '_' + td_list[i].text
                 elif i == 3:
+                    # 날짜
                     target_name = f'[{td_list[i].text}]_' + target_name
                 else:
                     target_name = td_list[i].text

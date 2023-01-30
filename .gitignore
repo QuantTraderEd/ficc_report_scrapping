@@ -1,6 +1,7 @@
 pdf
 .ipynb_checkpoints
 .idea
+__pycache__
 .python-version
 *.log
 *.log.*
